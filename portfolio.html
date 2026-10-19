@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6MX35VHE6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R6MX35VHE6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Complete Portfolio - ASFA.TECH</title>
+    
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#00aff0',
+                            darkBlue: '#008bc0',
+                            orange: '#f89c1e',
+                            dark: '#1e293b',
+                            light: '#f8fafc',
+                            wa: '#25D366'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-brand-light text-slate-700 relative font-sans antialiased">
+
+    <!-- Navigasi Utama -->
+    <nav class="glass-nav fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center reveal-left">
+                    <a href="index.html"><img class="h-12 w-auto object-contain" src="logo asfatech.png" alt="Logo ASFA.TECH"></a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center reveal-right delay-100">
+                    <a href="index.html#layanan" class="text-sm font-semibold text-slate-600 hover:text-brand-blue transition">Services</a>
+                    <a href="index.html#galeri" class="text-sm font-semibold text-slate-600 hover:text-brand-blue transition">Gallery</a>
+                    <a href="index.html#testimoni" class="text-sm font-semibold text-slate-600 hover:text-brand-blue transition">Testimonials</a>
+                    <a href="about.html" class="text-sm font-semibold text-slate-600 hover:text-brand-blue transition">About</a>
+                    <a href="portfolio.html" class="text-sm font-bold text-brand-blue border-b-2 border-brand-blue pb-1 transition">Portfolio</a>
+                    <a href="https://wa.me/6289668677058" class="bg-brand-blue hover:bg-brand-darkBlue text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-brand-blue/30 transition-all hover:-translate-y-1">
+                        <i class="fab fa-whatsapp mr-2"></i>Contact Me
+                    </a>
+                </div>
+
+                <div class="md:hidden flex items-center reveal-right">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-brand-blue focus:outline-none p-2" aria-label="Buka Menu">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full transition-all duration-300 transform origin-top">
+            <div class="px-4 pt-4 pb-6 space-y-2 flex flex-col">
+                <a href="about.html" class="px-4 py-3 text-slate-700 font-semibold hover:bg-slate-50 hover:text-brand-blue rounded-xl">About</a>
+                <a href="portfolio.html" class="px-4 py-3 text-brand-blue font-bold bg-blue-50 rounded-xl">Portfolio</a>
+                <div class="pt-3 mt-2 border-t border-slate-100">
+                    <a href="https://wa.me/6289668677058" class="flex items-center justify-center gap-2 w-full py-3.5 bg-brand-blue hover:bg-brand-darkBlue text-white rounded-xl font-bold shadow-md">
+                        <i class="fab fa-whatsapp text-lg"></i> Hubungi Kami (WhatsApp)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="relative pt-32 pb-12 overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-[#00aff0]/10 blur-3xl pointer-events-none"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 reveal">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-brand-dark mb-4">Complete <span class="text-brand-blue">Portfolio</span></h1>
+            <p class="text-slate-500 max-w-2xl mx-auto mb-8">A dynamic collection of my latest work in web development, UI/UX design, and multimedia editing.</p>
+            
+            <!-- KOTAK PENCARIAN & TOMBOL FILTER MODERN -->
+            <div class="max-w-xl mx-auto space-y-4">
+                <!-- Search Input -->
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="Cari berdasarkan judul proyek atau tech stack..." 
+                           class="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-full shadow-sm focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition text-sm">
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div id="filterContainer" class="flex flex-wrap justify-center gap-2 pt-2">
+                    <button data-filter="all" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-brand-blue text-white shadow-sm transition-all">All Works</button>
+                    <button data-filter="web" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:border-brand-blue transition-all">Web Dev</button>
+                    <button data-filter="video" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:border-brand-blue transition-all">Video Editing</button>
+                    <button data-filter="design" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:border-brand-blue transition-all">UI/UX & Design</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Kontainer Data Portofolio -->
+    <section class="py-12 md:py-16 bg-white min-h-[50vh]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Elemen Loading -->
+            <div id="loadingMessage" class="text-center py-20 reveal delay-100">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-brand-blue mb-4"></i>
+                <p class="text-slate-500 font-semibold">Memuat data dari Google Sheets...</p>
+            </div>
+
+            <!-- Pesan Jika Data Kosong / Tidak Ditemukan -->
+            <div id="noResultsMessage" class="hidden text-center py-16">
+                <i class="fas fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                <p class="text-slate-500 font-semibold">Tidak ada proyek yang sesuai dengan pencarian Anda.</p>
+            </div>
+
+            <!-- Grid Tempat Kartu Portofolio Muncul -->
+            <div id="portfolioContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Data akan dimunculkan di sini oleh script.js -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-light pt-16 pb-8 border-t border-slate-200 reveal delay-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t border-slate-200 pt-8 text-center text-slate-400 text-sm">
+                <p>&copy; 2026 ASFA.TECH. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Utama -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
