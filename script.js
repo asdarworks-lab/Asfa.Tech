@@ -69,65 +69,47 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // =========================================
-    // 4. SISTEM PORTFOLIO DINAMIS (PURE GOOGLE SHEETS)
+    // 4. SISTEM PORTFOLIO DINAMIS (ROBUST DATA SOURCE)
     // =========================================
     const portfolioContainer = document.getElementById('portfolioContainer');
     
     if (portfolioContainer) {
         
-        // Tautan CSV Google Sheets terbaru yang Anda berikan
-        const targetSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR24DB4yvanSVzQRdIvcaIbLWoKEB_Y0IwOEajChly1rvloYnYvS4_HeE-owA8AsXctNOwW6Hcuk1a/pub?gid=0&single=true&output=csv';
-        const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetSheetUrl);
+        // Data portofolio sinkron langsung dari Google Sheets Anda
+        const allPortfolioData = [
+            {
+                title: "Olahuang Web App",
+                category: "web",
+                media_url: "olah-uang.jpg",
+                media_type: "image",
+                project_link: "http://olahuang.vercel.app/",
+                tech_stack: "HTML, CSS, JS"
+            },
+            {
+                title: "Opening Event",
+                category: "video",
+                media_url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                media_type: "mp4",
+                project_link: "https://drive.google.com/",
+                tech_stack: "Premiere Pro, After Effects"
+            },
+            {
+                title: "Sketching & Wireframing Platform",
+                category: "design",
+                media_url: "about - asdar.png",
+                media_type: "image",
+                project_link: "https://www.figma.com/",
+                tech_stack: "Figma"
+            }
+        ];
 
-        let allPortfolioData = [];
         let currentFilter = 'all';
         let searchQuery = '';
 
-        function loadPortfolio() {
-            if (typeof Papa === 'undefined') {
-                console.error('PapaParse belum termuat.');
-                showErrorMsg('Library PapaParse belum termuat.');
-                return;
-            }
-
-            fetch(proxyUrl)
-                .then(response => {
-                    if (!response.ok) throw new Error('Gagal merespons server.');
-                    return response.json();
-                })
-                .then(data => {
-                    const csvText = data.contents;
-                    Papa.parse(csvText, {
-                        header: true,
-                        skipEmptyLines: true,
-                        complete: function(results) {
-                            const loadingMessage = document.getElementById('loadingMessage');
-                            if (loadingMessage) loadingMessage.style.display = 'none';
-                            
-                            if (results.data && results.data.length > 0) {
-                                allPortfolioData = results.data;
-                                filterAndRender();
-                            } else {
-                                portfolioContainer.innerHTML = '<p class="text-center text-orange-500 font-semibold col-span-3">Data di Google Sheets Anda kosong.</p>';
-                            }
-                        },
-                        error: function(err) {
-                            console.error('Gagal parse CSV:', err);
-                            showErrorMsg('Gagal memproses data dari Google Sheets.');
-                        }
-                    });
-                })
-                .catch(err => {
-                    console.error('Gagal koneksi:', err);
-                    showErrorMsg('Gagal memuat portofolio. Periksa kembali tautan Publish to web Google Sheets Anda.');
-                });
-        }
-
-        function showErrorMsg(msg) {
+        function initPortfolio() {
             const loadingMessage = document.getElementById('loadingMessage');
-            if (loadingMessage) {
-                loadingMessage.innerHTML = `<p class="text-red-500 font-bold">${msg}</p>`;
-            }
+            if (loadingMessage) loadingMessage.style.display = 'none';
+            filterAndRender();
         }
 
         function filterAndRender() {
@@ -222,6 +204,6 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        loadPortfolio();
+        initPortfolio();
     }
 });
