@@ -69,42 +69,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // =========================================
-    // 4. SISTEM PORTFOLIO DINAMIS (SMART FALLBACK)
+    // 4. SISTEM PORTFOLIO DINAMIS (PURE GOOGLE SHEETS)
     // =========================================
     const portfolioContainer = document.getElementById('portfolioContainer');
     
     if (portfolioContainer) {
         
-        const targetSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR24DB4yvanSVzQRdIvcaIbLWoKEB_Y0IwOEajChIy1rvloYnYvyS4_HeE-owA8AsXctNOwW6Hcuk1a/pub?gid=0&single=true&output=csv';
+        // Tautan CSV Google Sheets terbaru yang Anda berikan
+        const targetSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR24DB4yvanSVzQRdIvcaIbLWoKEB_Y0IwOEajChly1rvloYnYvS4_HeE-owA8AsXctNOwW6Hcuk1a/pub?gid=0&single=true&output=csv';
         const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetSheetUrl);
-
-        // Data cadangan profesional agar halaman langsung tampil sempurna
-        const fallbackData = [
-            {
-                title: "Olahuang Web App",
-                category: "web",
-                media_url: "olah-uang.jpg",
-                media_type: "image",
-                project_link: "http://olahuang.vercel.app/",
-                tech_stack: "HTML, Tailwind CSS, JavaScript"
-            },
-            {
-                title: "Visual Effect & Motion Sequence",
-                category: "video",
-                media_url: "burbery.jpg",
-                media_type: "image",
-                project_link: "#",
-                tech_stack: "Adobe Premiere, After Effects"
-            },
-            {
-                title: "Sketching & Wireframing Platform",
-                category: "design",
-                media_url: "about - asdar.png",
-                media_type: "image",
-                project_link: "https://www.figma.com/",
-                tech_stack: "Figma, UI/UX Research"
-            }
-        ];
 
         let allPortfolioData = [];
         let currentFilter = 'all';
@@ -113,13 +86,13 @@ document.addEventListener("DOMContentLoaded", function() {
         function loadPortfolio() {
             if (typeof Papa === 'undefined') {
                 console.error('PapaParse belum termuat.');
-                useFallbackData();
+                showErrorMsg('Library PapaParse belum termuat.');
                 return;
             }
 
             fetch(proxyUrl)
                 .then(response => {
-                    if (!response.ok) throw new Error('Gagal merespons');
+                    if (!response.ok) throw new Error('Gagal merespons server.');
                     return response.json();
                 })
                 .then(data => {
@@ -133,28 +106,28 @@ document.addEventListener("DOMContentLoaded", function() {
                             
                             if (results.data && results.data.length > 0) {
                                 allPortfolioData = results.data;
+                                filterAndRender();
                             } else {
-                                allPortfolioData = fallbackData;
+                                portfolioContainer.innerHTML = '<p class="text-center text-orange-500 font-semibold col-span-3">Data di Google Sheets Anda kosong.</p>';
                             }
-                            filterAndRender();
                         },
                         error: function(err) {
-                            console.warn('Gagal parse CSV, beralih ke data lokal.', err);
-                            useFallbackData();
+                            console.error('Gagal parse CSV:', err);
+                            showErrorMsg('Gagal memproses data dari Google Sheets.');
                         }
                     });
                 })
                 .catch(err => {
-                    console.warn('Gagal koneksi, beralih ke data lokal.', err);
-                    useFallbackData();
+                    console.error('Gagal koneksi:', err);
+                    showErrorMsg('Gagal memuat portofolio. Periksa kembali tautan Publish to web Google Sheets Anda.');
                 });
         }
 
-        function useFallbackData() {
+        function showErrorMsg(msg) {
             const loadingMessage = document.getElementById('loadingMessage');
-            if (loadingMessage) loadingMessage.style.display = 'none';
-            allPortfolioData = fallbackData;
-            filterAndRender();
+            if (loadingMessage) {
+                loadingMessage.innerHTML = `<p class="text-red-500 font-bold">${msg}</p>`;
+            }
         }
 
         function filterAndRender() {
