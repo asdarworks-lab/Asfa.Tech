@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (portfolioContainer) {
         
-        const targetSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR24DB4yvanSVzQRdlvcalbLWoKEB_YOlwoEajChly1rvloYnYvS4_HeE-owA8AsXctNoW6Hcuk1a/pub?gid=0&single=true&output=csv';
+        const targetSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR24DB4yvanSVzQRdIvcaIbLWoKEB_Y0IwOEajChIy1rvloYnYvyS4_HeE-owA8AsXctNOwW6Hcuk1a/pub?gid=0&single=true&output=csv';
         const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetSheetUrl);
 
         // Data cadangan profesional agar halaman langsung tampil sempurna
