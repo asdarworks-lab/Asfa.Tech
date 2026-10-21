@@ -69,15 +69,42 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // =========================================
-    // 4. SISTEM PORTFOLIO DINAMIS (ANTI-CORS LOCAL & LIVE)
+    // 4. SISTEM PORTFOLIO DINAMIS (SMART FALLBACK)
     // =========================================
     const portfolioContainer = document.getElementById('portfolioContainer');
     
     if (portfolioContainer) {
         
         const targetSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR24DB4yvanSVzQRdlvcalbLWoKEB_YOlwoEajChly1rvloYnYvS4_HeE-owA8AsXctNoW6Hcuk1a/pub?gid=0&single=true&output=csv';
-        // Menggunakan endpoint /get?url= untuk menghindari blokir CORS di browser lokal
         const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetSheetUrl);
+
+        // Data cadangan profesional agar halaman langsung tampil sempurna
+        const fallbackData = [
+            {
+                title: "Olahuang Web App",
+                category: "web",
+                media_url: "olah-uang.jpg",
+                media_type: "image",
+                project_link: "http://olahuang.vercel.app/",
+                tech_stack: "HTML, Tailwind CSS, JavaScript"
+            },
+            {
+                title: "Visual Effect & Motion Sequence",
+                category: "video",
+                media_url: "burbery.jpg",
+                media_type: "image",
+                project_link: "#",
+                tech_stack: "Adobe Premiere, After Effects"
+            },
+            {
+                title: "Sketching & Wireframing Platform",
+                category: "design",
+                media_url: "about - asdar.png",
+                media_type: "image",
+                project_link: "https://www.figma.com/",
+                tech_stack: "Figma, UI/UX Research"
+            }
+        ];
 
         let allPortfolioData = [];
         let currentFilter = 'all';
@@ -86,18 +113,17 @@ document.addEventListener("DOMContentLoaded", function() {
         function loadPortfolio() {
             if (typeof Papa === 'undefined') {
                 console.error('PapaParse belum termuat.');
+                useFallbackData();
                 return;
             }
 
             fetch(proxyUrl)
                 .then(response => {
-                    if (!response.ok) throw new Error('Gagal terhubung ke server.');
+                    if (!response.ok) throw new Error('Gagal merespons');
                     return response.json();
                 })
                 .then(data => {
-                    const csvText = data.contents; // Berisi teks CSV mentah dari Google Sheets
-                    
-                    // Parse string CSV menggunakan PapaParse (download: false karena data berupa string)
+                    const csvText = data.contents;
                     Papa.parse(csvText, {
                         header: true,
                         skipEmptyLines: true,
@@ -107,28 +133,28 @@ document.addEventListener("DOMContentLoaded", function() {
                             
                             if (results.data && results.data.length > 0) {
                                 allPortfolioData = results.data;
-                                filterAndRender();
                             } else {
-                                portfolioContainer.innerHTML = '<p class="text-center text-orange-500 font-semibold col-span-3">Data di Google Sheets kosong.</p>';
+                                allPortfolioData = fallbackData;
                             }
+                            filterAndRender();
                         },
                         error: function(err) {
-                            console.error('Kesalahan saat parse CSV:', err);
-                            showErrorMsg();
+                            console.warn('Gagal parse CSV, beralih ke data lokal.', err);
+                            useFallbackData();
                         }
                     });
                 })
                 .catch(err => {
-                    console.error('Kesalahan jaringan/CORS:', err);
-                    showErrorMsg();
+                    console.warn('Gagal koneksi, beralih ke data lokal.', err);
+                    useFallbackData();
                 });
         }
 
-        function showErrorMsg() {
+        function useFallbackData() {
             const loadingMessage = document.getElementById('loadingMessage');
-            if (loadingMessage) {
-                loadingMessage.innerHTML = '<p class="text-red-500 font-bold">Gagal memuat portofolio. Pastikan koneksi internet aktif dan tautan benar.</p>';
-            }
+            if (loadingMessage) loadingMessage.style.display = 'none';
+            allPortfolioData = fallbackData;
+            filterAndRender();
         }
 
         function filterAndRender() {
